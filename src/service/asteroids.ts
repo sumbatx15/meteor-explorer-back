@@ -3,10 +3,11 @@ import {
   Asteroid,
   createAsteroidYearMap,
   getAsteroidYear,
+  sortAsteroidsByMass,
   sortByYear,
 } from "./utils";
 
-const allAsteroids = (asteroidsJson as Asteroid[]).sort(sortByYear);
+const allAsteroids = sortAsteroidsByMass(asteroidsJson as Asteroid[]);
 const asteroidsMap = createAsteroidYearMap(allAsteroids);
 
 const getAsteroidsByYear = (year?: number) => {

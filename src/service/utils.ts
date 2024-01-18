@@ -25,14 +25,8 @@ export const createAsteroidYearMap = (asteroids: Asteroid[]) =>
     return acc;
   }, {} as Record<string, Asteroid[]>);
 
-export const sortByYear = (a: Asteroid, b: Asteroid) => {
-  const aYear = getAsteroidYear(a);
-  const bYear = getAsteroidYear(b);
-  if (aYear && bYear) return aYear - bYear;
-  if (aYear) return -1;
-  if (bYear) return 1;
-  return 0;
-};
+export const sortAsteroidsByMass = (asteroids: Asteroid[]) =>
+  asteroids.sort((a, b) => +b.mass - +a.mass);
 
 export const getAsteroidYear = (asteroid?: Asteroid) => {
   if (!asteroid?.year) return null;
