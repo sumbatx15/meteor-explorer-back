@@ -2,9 +2,9 @@ import asteroidsJson from "../data/asteroids.json";
 import {
   Asteroid,
   createAsteroidYearMap,
+  findAsteroidByMinMass,
   getAsteroidYear,
   sortAsteroidsByMass,
-  sortByYear,
 } from "./utils";
 
 const allAsteroids = sortAsteroidsByMass(asteroidsJson as Asteroid[]);
@@ -24,7 +24,8 @@ const searchAsteroids = (year?: number, mass?: number) => {
   const asteroidsByMass = getAsteroidsByMass(mass, asteroidsByYear);
 
   if (!asteroidsByMass.length && mass) {
-    const found = allAsteroids.find((asteroid) => +asteroid.mass >= mass);
+    const found = findAsteroidByMinMass(mass, allAsteroids);
+    console.log(mass, "found:", found.mass);
     const foundYear = getAsteroidYear(found);
     return {
       resultQuery: { year: foundYear ?? year },

@@ -9,7 +9,7 @@ router.post<
   { year: number; mass?: number; page?: number; pageSize?: number }
 >("/", (req, res) => {
   const { year, mass, page, pageSize } = req.body;
-  res.json(getAsteroids(year, mass, page, pageSize));
+  res.json(getAsteroids(+year, +(mass || 0), page, pageSize));
 });
 
 export default router;
