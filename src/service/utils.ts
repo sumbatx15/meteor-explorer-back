@@ -35,7 +35,10 @@ export const getAsteroidYear = (asteroid?: Asteroid) => {
   return new Date(asteroid.year).getFullYear();
 };
 
-export const findAsteroidByMinMass = (mass: number, asteroids: Asteroid[]) => {
+export const findAsteroidByMinMass = (
+  mass: number,
+  asteroids: Asteroid[]
+): Asteroid | undefined => {
   let left = 0;
   let right = asteroids.length - 1;
 

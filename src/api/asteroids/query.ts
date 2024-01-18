@@ -1,5 +1,5 @@
 import express from "express";
-import { AsteroidResponse, getAsteroids } from "../service/asteroids";
+import { AsteroidResponse, getAsteroids } from "../../service/asteroids";
 
 const router = express.Router();
 

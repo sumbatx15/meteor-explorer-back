@@ -25,7 +25,6 @@ const searchAsteroids = (year?: number, mass?: number) => {
 
   if (!asteroidsByMass.length && mass) {
     const found = findAsteroidByMinMass(mass, allAsteroids);
-    console.log(mass, "found:", found.mass);
     const foundYear = getAsteroidYear(found);
     return {
       resultQuery: { year: foundYear ?? year },
@@ -75,6 +74,10 @@ export const getAsteroids = (
     pageSize,
     totalPages,
   };
+};
+
+export type YearsResponse = {
+  years: string[];
 };
 
 export const getYears = () => {
