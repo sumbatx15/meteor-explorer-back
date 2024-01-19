@@ -1,14 +1,18 @@
 import asteroidsJson from "../data/asteroids.json";
 import {
   Asteroid,
+  CacheKey,
   createAsteroidYearMap,
+  createCacheKey,
   findAsteroidByMinMass,
   getAsteroidYear,
+  paginateAsteroids,
   sortAsteroidsByMass,
 } from "./utils";
 
 const allAsteroids = sortAsteroidsByMass(asteroidsJson as Asteroid[]);
 const asteroidsMap = createAsteroidYearMap(allAsteroids);
+const cache: Record<CacheKey, AsteroidResponse> = {};
 
 const getAsteroidsByYear = (year?: number) => {
   return (year ? asteroidsMap[year] : allAsteroids) || [];
@@ -57,29 +61,19 @@ export const getAsteroids = (
   page: number = 1,
   pageSize: number = 10
 ): AsteroidResponse => {
+  const cacheKey = createCacheKey(year, mass, page, pageSize);
+  if (cache[cacheKey]) return cache[cacheKey];
+
   const { asteroids, resultQuery } = searchAsteroids(year, mass);
+  const paginatedAsteroids = paginateAsteroids(asteroids, page, pageSize);
 
-  const startIndex = (page - 1) * pageSize;
-  const endIndex = page * pageSize;
-
-  const paginatedAsteroids = asteroids.slice(startIndex, endIndex);
-
-  const totalPages = Math.ceil(asteroids.length / pageSize);
-
-  return {
+  const result = {
     resultQuery,
-    asteroids: paginatedAsteroids,
-    total: asteroids.length,
-    page,
-    pageSize,
-    totalPages,
+    ...paginatedAsteroids,
   };
-};
 
-export type YearsResponse = {
-  years: string[];
-};
+  cache[cacheKey] = result;
+  cache[createCacheKey(resultQuery.year, mass, page, pageSize)] = result;
 
-export const getYears = () => {
-  return Object.keys(asteroidsMap);
+  return result;
 };

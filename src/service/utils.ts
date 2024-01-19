@@ -46,8 +46,6 @@ export const findAsteroidByMinMass = (
     const mid = Math.floor((left + right) / 2);
     const asteroid = asteroids[mid];
 
-    console.log("+asteroid.mass:", +asteroid.mass);
-    console.log("mass:", mass);
     if (+asteroid.mass === +mass) {
       return asteroid;
     } else if (+asteroid.mass > mass) {
@@ -58,4 +56,34 @@ export const findAsteroidByMinMass = (
   }
 
   return asteroids[left];
+};
+
+export const paginateAsteroids = (
+  asteroids: Asteroid[],
+  page: number,
+  pageSize: number
+) => {
+  const start = (page - 1) * pageSize;
+  const end = page * pageSize;
+
+  const paginatedAsteroids = asteroids.slice(start, end);
+  const totalPages = Math.ceil(asteroids.length / pageSize);
+
+  return {
+    asteroids: paginatedAsteroids,
+    total: asteroids.length,
+    totalPages,
+    page,
+    pageSize,
+  };
+};
+
+export type CacheKey = `${string}.${string}.${string}.${string}`;
+export const createCacheKey = (
+  year?: number,
+  mass?: number,
+  page: number = 1,
+  pageSize: number = 10
+): CacheKey => {
+  return `${year}.${mass}.${page}.${pageSize}`;
 };

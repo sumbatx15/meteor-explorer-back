@@ -7,7 +7,7 @@ router.post<
   null,
   AsteroidResponse,
   { year: number; mass?: number; page?: number; pageSize?: number }
->("/", (req, res) => {
+>("/", async (req, res) => {
   const { year, mass, page, pageSize } = req.body;
   res.json(getAsteroids(+year, +(mass || 0), page, pageSize));
 });

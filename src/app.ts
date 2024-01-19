@@ -4,7 +4,6 @@ import helmet from "helmet";
 import morgan from "morgan";
 
 import api from "./api";
-import * as middlewares from "./middlewares";
 
 require("dotenv").config();
 
@@ -16,8 +15,5 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/v1", api);
-
-app.use(middlewares.notFound);
-app.use(middlewares.errorHandler);
 
 export default app;
