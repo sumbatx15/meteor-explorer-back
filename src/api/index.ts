@@ -8,7 +8,7 @@ const router = express.Router();
 import OpenAI from "openai";
 
 export const openai = new OpenAI({
-  apiKey: "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",
+  apiKey: "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",
 });
 
 export const createInstructions = (instructions: string) => {
