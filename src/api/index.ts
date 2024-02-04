@@ -2,23 +2,18 @@ import express from "express";
 
 import asteroidsQuery from "./asteroids/query";
 import asteroidsYears from "./asteroids/years";
+import { openai } from "../app";
 
 const router = express.Router();
-
-import OpenAI from "openai";
-
-export const openai = new OpenAI({
-  apiKey: "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",
-});
 
 export const createInstructions = (instructions: string) => {
   return `Instruction: "${instructions}"
   Given the above instruction, please respond with the corrected text based on the following user input. Only provide the improved or formatted text without any additional explanations or descriptions.`;
 };
 
-export const correctWithGPTPrompt = async () =>
+export const correctWithGPTPrompt = async (model = "gpt-3.5-turbo-1106") =>
   openai.chat.completions.create({
-    model: "gpt-4-1106-preview",
+    model,
     messages: [
       {
         role: "system",
@@ -35,7 +30,7 @@ export const correctWithGPTPrompt = async () =>
   });
 
 router.get("/", async (req, res) => {
-  const response = await correctWithGPTPrompt();
+  const response = await correctWithGPTPrompt(req.body.model);
   res.json({
     message: response.choices[0].message.content,
   });

@@ -4,8 +4,13 @@ import helmet from "helmet";
 import morgan from "morgan";
 
 import api from "./api";
+import OpenAI from "openai";
 
 require("dotenv").config();
+
+export const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
 const app = express();
 
