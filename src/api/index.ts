@@ -13,7 +13,7 @@ export const createInstructions = (instructions: string) => {
 
 export const correctWithGPTPrompt = async (model = "gpt-3.5-turbo-1106") =>
   openai.chat.completions.create({
-    model,
+    model: "gpt-4-1106-preview",
     messages: [
       {
         role: "system",
@@ -24,15 +24,22 @@ export const correctWithGPTPrompt = async (model = "gpt-3.5-turbo-1106") =>
       {
         role: "user",
         content:
-          "אני אוהב לשחק כדורגל עם החברים שלי בסופשבוע. אנחנו תמיד מנצחים את היריבים שלנו ואני מרגיש שאני השחקן הכי טוב בקבוצה שלי",
+          "אני אוהב לשחק כדורגל עם החברים שלי בסופשבוע. אנחנו תמיד מנצחים את היריבים שלנו ואני מרגיש שאני השחקן הכי טוב בקבוצה שלי ואני מאמין שאני יכול להפוך לשחקן מקצועי בעתיד.",
       },
     ],
   });
 
-router.get("/", async (req, res) => {
+router.post("/", async (req, res) => {
   const response = await correctWithGPTPrompt(req.body.model);
   res.json({
     message: response.choices[0].message.content,
+  });
+});
+
+router.post("/test", async (req, res) => {
+  const startTime = Date.now();
+  res.json({
+    message: Date.now() - startTime,
   });
 });
 
